@@ -1,5 +1,5 @@
 {
-    "name": "common-gateway/pet-store-bundle",
+    "name": "common-gateway/vrijbrp-to-zgw-bundle",
     "description": "An example package for creating symfony flex bundles as plugins",
     "type": "symfony-bundle",
     "keywords": [
@@ -9,15 +9,15 @@
         "conduction",
         "symfony",
         "common-gateway-plugin",
-        "pet store"
+        "vrijbrp",
+        "zgw"
     ],
     "homepage": "https://commongateway.nl",
     "license": "EUPL-1.2",
     "minimum-stability": "dev",
     "require": {
         "php": ">=7.4",
-        "commongateway/corebundle": "^1.2.68 | <2.0",
-        "common-gateway/customer-notifications-bundle": "^0.0.40 | < 1.0"
+        "commongateway/corebundle": "^1.2.68 | <2.0"
     },
     "require-dev": {
         "symfony/dependency-injection": "~3.4|~4.1|~5.0"
@@ -35,7 +35,7 @@
     },
     "autoload": {
         "psr-4": {
-            "CommonGateway\\PetStoreBundle\\": "src/"
+            "CommonGateway\\VrijBRPToZGWBundle\\": "src/"
         }
     }
 }

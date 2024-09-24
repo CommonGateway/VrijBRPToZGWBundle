@@ -1,4 +1,4 @@
-# CommonGateway\PetStoreBundle\Service\InstallationService  
+# CommonGateway\VrijBRPToZGWBundle\Service\InstallationService
 
 The installation service for this plugin.
 
@@ -20,7 +20,7 @@ CommonGateway\CoreBundle\Installer\InstallerInterface
 
 
 
-### InstallationService::__construct  
+### InstallationService::__construct
 
 **Description**
 
@@ -28,16 +28,16 @@ CommonGateway\CoreBundle\Installer\InstallerInterface
 public __construct (\EntityManagerInterface $entityManager, \LoggerInterface $installationLogger)
 ```
 
-The constructor 
+The constructor
 
- 
+
 
 **Parameters**
 
 * `(\EntityManagerInterface) $entityManager`
-: The entity manager.  
+: The entity manager.
 * `(\LoggerInterface) $installationLogger`
-: The installation logger.  
+: The installation logger.
 
 **Return Values**
 
@@ -47,7 +47,7 @@ The constructor
 <hr />
 
 
-### InstallationService::checkDataConsistency  
+### InstallationService::checkDataConsistency
 
 **Description**
 
@@ -55,9 +55,9 @@ The constructor
 public checkDataConsistency (void)
 ```
 
-The actual code run on update and installation of this bundle 
+The actual code run on update and installation of this bundle
 
- 
+
 
 **Parameters**
 
@@ -73,7 +73,7 @@ The actual code run on update and installation of this bundle
 <hr />
 
 
-### InstallationService::install  
+### InstallationService::install
 
 **Description**
 
@@ -81,9 +81,9 @@ The actual code run on update and installation of this bundle
 public install (void)
 ```
 
-Every installation service should implement an installation function 
+Every installation service should implement an installation function
 
- 
+
 
 **Parameters**
 
@@ -99,7 +99,7 @@ Every installation service should implement an installation function
 <hr />
 
 
-### InstallationService::uninstall  
+### InstallationService::uninstall
 
 **Description**
 
@@ -107,9 +107,9 @@ Every installation service should implement an installation function
 public uninstall (void)
 ```
 
-Every installation service should implement an uninstallation function 
+Every installation service should implement an uninstallation function
 
- 
+
 
 **Parameters**
 
@@ -125,7 +125,7 @@ Every installation service should implement an uninstallation function
 <hr />
 
 
-### InstallationService::update  
+### InstallationService::update
 
 **Description**
 
@@ -133,9 +133,9 @@ Every installation service should implement an uninstallation function
 public update (void)
 ```
 
-Every installation service should implement an update function 
+Every installation service should implement an update function
 
- 
+
 
 **Parameters**
 

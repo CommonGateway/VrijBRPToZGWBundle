@@ -1,6 +1,6 @@
 <?php
 
-namespace CommonGateway\PetStoreBundle\Service;
+namespace CommonGateway\VrijBRPToZGWBundle\Service;
 
 use CommonGateway\CoreBundle\Installer\InstallerInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -56,7 +56,7 @@ class InstallationService implements InstallerInterface
      */
     public function install()
     {
-        $this->logger->debug("PetStoreBundle -> Install()", ['plugin' => 'common-gateway/pet-store-bundle']);
+        $this->logger->debug("VrijBRPToZGWBundle -> Install()", ['plugin' => 'common-gateway/vrijbrp-to-zgw-bundle']);
 
         $this->checkDataConsistency();
 
@@ -70,7 +70,7 @@ class InstallationService implements InstallerInterface
      */
     public function update()
     {
-        $this->logger->debug("PetStoreBundle -> Update()", ['plugin' => 'common-gateway/pet-store-bundle']);
+        $this->logger->debug("VrijBRPToZGWBundle -> Update()", ['plugin' => 'common-gateway/vrijbrp-to-zgw-bundle']);
 
         $this->checkDataConsistency();
 
@@ -84,7 +84,7 @@ class InstallationService implements InstallerInterface
      */
     public function uninstall()
     {
-        $this->logger->debug("PetStoreBundle -> Uninstall()", ['plugin' => 'common-gateway/pet-store-bundle']);
+        $this->logger->debug("VrijBRPToZGWBundle -> Uninstall()", ['plugin' => 'common-gateway/vrijbrp-to-zgw-bundle']);
 
         // Do some cleanup to uninstall correctly...
 
@@ -100,7 +100,7 @@ class InstallationService implements InstallerInterface
     {
         //This is the place where you can add or change Installation data from/for this bundle or other required bundles.
         //Note that in most cases it is recommended to use .json files in the Installation folder instead, if possible.
-        
+
         $this->entityManager->flush();
 
     }//end checkDataConsistency()

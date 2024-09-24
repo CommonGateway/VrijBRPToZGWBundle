@@ -1,4 +1,4 @@
-# CommonGateway\PetStoreBundle\Service\PetStoreService  
+# CommonGateway\VrijBRPToZGWBundle\Service\VrijBRPToZGWService
 
 An example service for adding business logic to your class.
 
@@ -16,7 +16,7 @@ An example service for adding business logic to your class.
 
 
 
-### PetStoreService::__construct  
+### VrijBRPToZGWService::__construct
 
 **Description**
 
@@ -24,9 +24,9 @@ An example service for adding business logic to your class.
  __construct (void)
 ```
 
- 
 
- 
+
+
 
 **Parameters**
 
@@ -40,7 +40,7 @@ An example service for adding business logic to your class.
 <hr />
 
 
-### PetStoreService::petStoreHandler  
+### VrijBRPToZGWService::petStoreHandler
 
 **Description**
 
@@ -48,16 +48,16 @@ An example service for adding business logic to your class.
 public petStoreHandler (array $data, array $configuration)
 ```
 
-An example handler that is triggered by an action. 
+An example handler that is triggered by an action.
 
- 
+
 
 **Parameters**
 
 * `(array) $data`
-: The data array  
+: The data array
 * `(array) $configuration`
-: The configuration array  
+: The configuration array
 
 **Return Values**
 

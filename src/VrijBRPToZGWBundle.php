@@ -1,16 +1,16 @@
 <?php
 /**
- * The pet store bundle aims at providing an example common gateway plugin
+ * The VrijBRPToZGWBundle
  *
  * @author  Conduction.nl <info@conduction.nl>
  * @license EUPL-1.2 https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12
  */
 
-namespace CommonGateway\PetStoreBundle;
+namespace CommonGateway\VrijBRPToZGWBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class PetStoreBundle extends Bundle
+class VrijBRPToZGWBundle extends Bundle
 {
 
 
