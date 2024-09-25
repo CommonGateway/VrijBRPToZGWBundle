@@ -25,24 +25,26 @@ use Twig\Error\SyntaxError;
  *
  * This service provides synchronization functionality to synchronize between sources and the gateway.
  *
- * @author Robert Zondervan, Barry Brands, Ruben van der Linde
+ * @author  Robert Zondervan, Barry Brands, Ruben van der Linde
  * @license EUPL<github.com/ConductionNL/contactcatalogus/blob/master/LICENSE.md>
  *
  * @category Service
  */
 class NewSynchronizationService
 {
+
+
     public function __construct(
         private readonly GatewayResourceService $resourceService,
-        private readonly CallService            $callService,
+        private readonly CallService $callService,
         private readonly SynchronizationService $synchronizationService,
-        private readonly LoggerInterface        $synchronizationLogger,
+        private readonly LoggerInterface $synchronizationLogger,
         private readonly EntityManagerInterface $entityManager,
-        private readonly MappingService         $mappingService,
-    )
-    {
+        private readonly MappingService $mappingService,
+    ) {
 
-    }
+    }//end __construct()
+
 
     /**
      * Executes the synchronization from source to gateway.
@@ -58,11 +60,11 @@ class NewSynchronizationService
      *
      * @return Synchronization The updated synchronization
      */
-    public function synchronizeFromSource(Synchronization $synchronization, array $sourceObject = [], bool $unsafe = false): Synchronization
+    public function synchronizeFromSource(Synchronization $synchronization, array $sourceObject=[], bool $unsafe=false): Synchronization
     {
         $this->synchronizationLogger->info("handleSync for Synchronization with id = {$synchronization->getId()->toString()}");
 
-        //create new object if no object exists
+        // create new object if no object exists
         if (!$synchronization->getObject()) {
             isset($this->io) && $this->io->text('creating new objectEntity');
             $this->synchronizationLogger->info('creating new objectEntity');
@@ -74,6 +76,7 @@ class NewSynchronizationService
         } else {
             $oldDateModified = $synchronization->getObject()->getDateModified()->getTimestamp();
         }
+
         $sourceObject = $sourceObject ?: $this->synchronizationService->getSingleFromSource($synchronization);
 
         if ($sourceObject === null) {
@@ -89,15 +92,16 @@ class NewSynchronizationService
         $sha = hash('sha256', json_encode($sourceObject));
 
         // Checking if data on source has changed.
-        if($synchronization->getSha() === $sha) {
+        if ($synchronization->getSha() === $sha) {
             return $synchronization;
         }
 
         // Counter
-        $counter = $synchronization->getTryCounter() + 1;
+        $counter = ($synchronization->getTryCounter() + 1);
         if ($counter > 10000) {
             $counter = 10000;
         }
+
         $synchronization->setTryCounter($counter);
 
         // Set dont try before, expensional so in minutes  1,8,27,64,125,216,343,512,729,1000
@@ -107,11 +111,13 @@ class NewSynchronizationService
         } else {
             $dontTryBefore = new DateTime();
         }
+
         $synchronization->setDontSyncBefore($dontTryBefore);
 
         if ($synchronization->getMapping()) {
             $sourceObject = $this->mappingService->mapping($synchronization->getMapping(), $sourceObject);
         }
+
         $synchronization->getObject()->hydrate($sourceObject, $unsafe);
 
         $synchronization->setSha($sha);
@@ -121,21 +127,23 @@ class NewSynchronizationService
 
         if ($oldDateModified !== $synchronization->getObject()->getDateModified()->getTimestamp()) {
             $date = new DateTime();
-                isset($this->io) ?? $this->io->text("set new dateLastChanged to {$date->format('d-m-YTH:i:s')}");
+                (isset($this->io) ?? $this->io->text("set new dateLastChanged to {$date->format('d-m-YTH:i:s')}"));
             $synchronization->setLastSynced(new DateTime());
             $synchronization->setTryCounter(0);
         } else {
-                isset($this->io) ?? $this->io->text("lastSynced is still {$synchronization->getObject()->getDateModified()->format('d-m-YTH:i:s')}");
+                (isset($this->io) ?? $this->io->text("lastSynced is still {$synchronization->getObject()->getDateModified()->format('d-m-YTH:i:s')}"));
         }
 
         return $synchronization;
-    }
+
+    }//end synchronizeFromSource()
+
 
     /**
      * Fetch data from source in a way that is as abstract as possible at this time.
      *
-     * @param array $configuration
-     * @param Source $source
+     * @param  array  $configuration
+     * @param  Source $source
      * @return array
      * @throws Exception
      */
@@ -143,14 +151,13 @@ class NewSynchronizationService
     {
         $response = $this->callService->call(source: $source, endpoint: $configuration['endpoint'], method: $configuration['method'], config: ['json' => ['types' => $configuration['types']]]);
 
-        $result = $this->callService->decodeResponse(source: $source, response: $response, contentType: $configuration['content-type'] ?? 'application/json');
+        $result = $this->callService->decodeResponse(source: $source, response: $response, contentType: ($configuration['content-type'] ?? 'application/json'));
 
         $resultDot = new Dot($result);
 
-
-        if($resultDot->has(keys: $configuration['resultsPath']) === true) {
+        if ($resultDot->has(keys: $configuration['resultsPath']) === true) {
             $return = $resultDot->get(key: $configuration['resultsPath']);
-            if($return instanceof Dot) {
+            if ($return instanceof Dot) {
                 return $return->jsonSerialize();
             } else if (is_array($return)) {
                 return $return;
@@ -158,24 +165,25 @@ class NewSynchronizationService
         }
 
         throw new Exception('No cases found');
-    }
+
+    }//end getResults()
 
 
     /**
      * This function is designed to in time replace the existing syncCollectionHandler.
      * At the moment it depends on the in-gateway SynchronizationService, and is one way with the source as the leading version.
      *
-     * @param array $data
-     * @param array $configuration
+     * @param  array $data
+     * @param  array $configuration
      * @return array
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function synchronizeCollectionHandler (array $data, array $configuration): array
+    public function synchronizeCollectionHandler(array $data, array $configuration): array
     {
         $source = $this->resourceService->getSource(reference: $configuration['source'], pluginName: "common-gateway/vrijbrp-to-zgw-bundle");
         $schema = $this->resourceService->getSchema(reference: $configuration['schema'], pluginName: "common-gateway/vrijbrp-to-zgw-bundle");
 
-        if(isset($configuration['mapping']) === true) {
+        if (isset($configuration['mapping']) === true) {
             $mapping = $this->resourceService->getMapping(reference: $configuration['mapping'], pluginName: "common-gateway/vrijbrp-to-zgw-bundle");
         }
 
@@ -186,16 +194,16 @@ class NewSynchronizationService
             return $data;
         }
 
-        foreach($dossiers as $dossier) {
+        foreach ($dossiers as $dossier) {
             $dossierDot = new Dot($dossier);
 
             $synchronization = $this->synchronizationService->findSyncBySource(source: $source, entity: $schema, sourceId: $dossierDot[$configuration['idLocation']], endpoint: $configuration['endpoint']);
 
-            if($synchronization->getMapping() === null && isset($mapping) === true) {
+            if ($synchronization->getMapping() === null && isset($mapping) === true) {
                 $synchronization->setMapping($mapping);
             }
 
-            try{
+            try {
                 $this->synchronizeFromSource(synchronization: $synchronization, sourceObject: $dossier);
             } catch (Exception $exception) {
                 $this->synchronizationLogger->error(message: $exception->getMessage(), context: ['plugin' => 'common-gateway/vrijbrp-to-zgw-bundle']);
@@ -203,5 +211,8 @@ class NewSynchronizationService
         }
 
         return $data;
-    }
-}
+
+    }//end synchronizeCollectionHandler()
+
+
+}//end class

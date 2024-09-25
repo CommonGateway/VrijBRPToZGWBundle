@@ -4,14 +4,18 @@ namespace CommonGateway\VrijBRPToZGWBundle\Service;
 
 class VrijBrpService
 {
+
+
     public function setVrijBRPDefaults(array $configuration): array
     {
         if (isset($configuration['endpoint']) === false) {
             $configuration['endpoint'] = '/v1/api/dossiers/search';
         }
+
         if (isset($configuration['method']) === false) {
             $configuration['method'] = 'POST';
         }
+
         if (isset($configuration['types']) === false) {
             $configuration['types'] = [
                 'intra_mun_relocation',
@@ -20,5 +24,8 @@ class VrijBrpService
         }
 
         return $configuration;
-    }
-}
+
+    }//end setVrijBRPDefaults()
+
+
+}//end class
