@@ -1,0 +1,25 @@
+{
+  "title": "DossierToZaak",
+  "$id": "https://commongateway.nl/mapping/vrijbrp.dossierToZaak.mapping.json",
+  "$schema": "https://docs.commongateway.nl/schemas/Mapping.schema.json",
+  "version": "0.0.1",
+  "passTrough": false,
+  "mapping": {
+    "_sourceId": "dossierId",
+    "identificatie": "dossierId",
+    "omschrijving": "description",
+    "zaaktype": "zaaktypeUrl",
+    "registratiedatum": "entryDateTime",
+    "startdatum": "startDate",
+    "statussen": "[{% if status|default %}{% set status = status|merge({'dossierId': dossierId, 'statustypeUrl': statustypeUrl}) %}{{ map('https://commongateway.nl/mapping/vrijbrp.statusToZGWStatus.mapping.json', status)|json_encode }}]"
+  },
+  "cast": {
+    "_sourceId": "unsetIfValue==dossierId",
+    "identificatie": "unsetIfValue==dossierId",
+    "omschrijving": "unsetIfValue==description",
+    "zaaktype": "unsetIfValue==zaaktypeUrl",
+    "registratiedatum": "unsetIfValue==entryDateTime",
+    "startdatum": "unsetIfValue==startDate",
+    "statussen": "jsonToArray"
+  }
+}
