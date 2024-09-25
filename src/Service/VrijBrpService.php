@@ -16,10 +16,12 @@ class VrijBrpService
             $configuration['method'] = 'POST';
         }
 
-        if (isset($configuration['types']) === false) {
-            $configuration['types'] = [
-                'intra_mun_relocation',
-                'inter_mun_relocation',
+        if (isset($configuration['body']) === false) {
+            $configuration['body'] = [
+                'types' => [
+                    'intra_mun_relocation',
+                    'inter_mun_relocation',
+                ]
             ];
         }
 
