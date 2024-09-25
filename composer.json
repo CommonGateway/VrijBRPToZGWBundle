@@ -16,7 +16,7 @@
     "license": "EUPL-1.2",
     "minimum-stability": "dev",
     "require": {
-        "php": ">=7.4",
+        "php": ">=8.2",
         "commongateway/corebundle": "^1.2.68 | <2.0"
     },
     "require-dev": {
