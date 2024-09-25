@@ -149,7 +149,7 @@ class NewSynchronizationService
      */
     public function getResults(array $configuration, Source $source): array
     {
-        $response = $this->callService->call(source: $source, endpoint: $configuration['endpoint'], method: $configuration['method'], config: ['json' => ['types' => $configuration['types']]]);
+        $response = $this->callService->call(source: $source, endpoint: $configuration['endpoint'], method: $configuration['method'], config: ['json' => $configuration['body']]);
 
         $result = $this->callService->decodeResponse(source: $source, response: $response, contentType: ($configuration['content-type'] ?? 'application/json'));
 
@@ -197,7 +197,7 @@ class NewSynchronizationService
         foreach ($dossiers as $dossier) {
             $dossierDot = new Dot($dossier);
 
-            $synchronization = $this->synchronizationService->findSyncBySource(source: $source, entity: $schema, sourceId: $dossierDot[$configuration['idLocation']], endpoint: $configuration['endpoint']);
+            $synchronization = $this->synchronizationService->findSyncBySource(source: $source, entity: $schema, sourceId: $dossierDot[$configuration['idField']], endpoint: $configuration['endpoint']);
 
             if ($synchronization->getMapping() === null && isset($mapping) === true) {
                 $synchronization->setMapping($mapping);
