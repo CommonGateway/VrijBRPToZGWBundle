@@ -21,7 +21,7 @@ class VrijBrpService
                 'types' => [
                     'intra_mun_relocation',
                     'inter_mun_relocation',
-                ]
+                ],
             ];
         }
 
