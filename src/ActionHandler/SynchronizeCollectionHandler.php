@@ -9,15 +9,17 @@ use CommonGateway\VrijBRPToZGWBundle\Service\VrijBrpService;
 class SynchronizeCollectionHandler implements ActionHandlerInterface
 {
 
+
     /**
      * @param NewSynchronizationService $synchronizationService
      */
     public function __construct(
         private readonly NewSynchronizationService $synchronizationService,
-        private readonly VrijBrpService            $vrijBrpService,
-    )
-    {
-    }
+        private readonly VrijBrpService $vrijBrpService,
+    ) {
+
+    }//end __construct()
+
 
     /**
      *  This function returns the requered configuration as a [json-schema](https://json-schema.org/) array.
@@ -32,10 +34,11 @@ class SynchronizeCollectionHandler implements ActionHandlerInterface
             'title'       => 'SynchronizationCollectionHandler',
             'description' => '',
             'required'    => [],
-            'properties'  => [
-            ],
+            'properties'  => [],
         ];
-    }
+
+    }//end getConfiguration()
+
 
     /**
      * Run the actual business logic in the appropriate server.
@@ -50,5 +53,8 @@ class SynchronizeCollectionHandler implements ActionHandlerInterface
         $configuration = $this->vrijBrpService->setVrijBRPDefaults($configuration);
 
         return $this->synchronizationService->synchronizeCollectionHandler($data, $configuration);
-    }
-}
+
+    }//end run()
+
+
+}//end class
