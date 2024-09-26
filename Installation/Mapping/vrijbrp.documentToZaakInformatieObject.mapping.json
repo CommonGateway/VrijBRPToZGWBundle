@@ -1,0 +1,29 @@
+{
+  "title": "DocumentToZaakInformatieObject",
+  "$id": "https://commongateway.nl/mapping/vrijbrp.documentToZaakInformatieObject.mapping.json",
+  "$schema": "https://docs.commongateway.nl/schemas/Mapping.schema.json",
+  "version": "0.0.1",
+  "passTrough": false,
+  "mapping": {
+    "_sourceId": "{% if title|default and id|default %}{{ title~id }}{% endif %}",
+    "titel": "title",
+    "informatieobject._sourceId": "id",
+    "informatieobject.identificatie": "id",
+    "informatieobject.bronorganisatie": "bronorganisatie",
+    "informatieobject.creatiedatum": "entryDateTime",
+    "informatieobject.titel": "title",
+    "informatieobject.auteur": "bronorganisatie",
+    "informaiteojbect.informatieobjecttype": "informatieobjecttypeUrl"
+  },
+  "cast": {
+    "_sourceId": "unsetIfValue==",
+    "titel": "unsetIfValue==code",
+    "informatieobject._sourceId": "unsetIfValue==id",
+    "informatieobject.identificatie": "unsetIfValue==id",
+    "informatieobject.bronorganisatie": "unsetIfValue==bronorganisatie",
+    "informatieobject.creatiedatum": "unsetIfValue==creatiedatum",
+    "informatieobject.titel": "unsetIfValue==title",
+    "informatieobject.auteur": "unsetIfValue==bronorganisatie",
+    "informatieobject.informatieobjecttype": "unsetIfValue==informatieobjecttypeUrl"
+  }
+}
