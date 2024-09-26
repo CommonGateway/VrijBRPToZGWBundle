@@ -5,12 +5,13 @@
   "version": "0.0.1",
   "passTrough": false,
   "mapping": {
-    "_sourceId": "{{ dossierId~code }} ",
+    "_sourceId": "{% if dossierId|default and code|default %}{{ dossierId~code }}{% endif %}",
     "statustype": "statustypeUrl",
     "datumStatusGezet": "entryDateTime",
     "indicatieLaatstGezetteStatus": "endStatus"
   },
   "cast": {
+    "_sourceId": "unsetIfValue==",
     "statustype": "unsetIfValue==statustypeUrl",
     "datumStatusGezet": "unsetIfValue==entryDateTime",
     "indicatieLaatstGezetteStatus": "bool"
