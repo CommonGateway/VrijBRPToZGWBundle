@@ -13,7 +13,8 @@
     "informatieobject.creatiedatum": "entryDateTime",
     "informatieobject.titel": "title",
     "informatieobject.auteur": "bronorganisatie",
-    "informaiteojbect.informatieobjecttype": "informatieobjecttypeUrl"
+    "informaiteobject.informatieobjecttype": "informatieobjecttypeUrl",
+    "informaiteobject.taal": "dut"
   },
   "cast": {
     "_sourceId": "unsetIfValue==",
