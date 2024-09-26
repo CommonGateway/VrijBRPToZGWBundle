@@ -127,11 +127,11 @@ class NewSynchronizationService
 
         if ($oldDateModified !== $synchronization->getObject()->getDateModified()->getTimestamp()) {
             $date = new DateTime();
-                (isset($this->io) ?? $this->io->text("set new dateLastChanged to {$date->format('d-m-YTH:i:s')}"));
+            (isset($this->io) ?? $this->io->text("set new dateLastChanged to {$date->format('d-m-YTH:i:s')}"));
             $synchronization->setLastSynced(new DateTime());
             $synchronization->setTryCounter(0);
         } else {
-                (isset($this->io) ?? $this->io->text("lastSynced is still {$synchronization->getObject()->getDateModified()->format('d-m-YTH:i:s')}"));
+            (isset($this->io) ?? $this->io->text("lastSynced is still {$synchronization->getObject()->getDateModified()->format('d-m-YTH:i:s')}"));
         }
 
         return $synchronization;
@@ -205,6 +205,7 @@ class NewSynchronizationService
 
             try {
                 $this->synchronizeFromSource(synchronization: $synchronization, sourceObject: $dossier);
+                $this->entityManager->flush();
             } catch (Exception $exception) {
                 $this->synchronizationLogger->error(message: $exception->getMessage(), context: ['plugin' => 'common-gateway/vrijbrp-to-zgw-bundle']);
             }

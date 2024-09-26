@@ -2,9 +2,9 @@
 
 namespace CommonGateway\VrijBRPToZGWBundle\ActionHandler;
 
-use App\ActionHandler\ActionHandlerInterface;
 use CommonGateway\VrijBRPToZGWBundle\Service\NewSynchronizationService;
 use CommonGateway\VrijBRPToZGWBundle\Service\VrijBrpService;
+use CommonGateway\CoreBundle\ActionHandler\ActionHandlerInterface;
 
 class SynchronizeCollectionHandler implements ActionHandlerInterface
 {
