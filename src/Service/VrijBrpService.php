@@ -18,7 +18,8 @@ class VrijBrpService
         private readonly EntityManagerInterface $entityManager,
     ) {
 
-    }
+    }//end __construct()
+
 
     public function setVrijBRPDefaults(array $configuration): array
     {
@@ -43,14 +44,18 @@ class VrijBrpService
 
     }//end setVrijBRPDefaults()
 
-    function arrayRecursiveDiff($aArray1, $aArray2) {
-        $aReturn = array();
+
+    function arrayRecursiveDiff($aArray1, $aArray2)
+    {
+        $aReturn = [];
 
         foreach ($aArray1 as $mKey => $mValue) {
             if (array_key_exists($mKey, $aArray2)) {
                 if (is_array($mValue)) {
                     $aRecursiveDiff = $this->arrayRecursiveDiff($mValue, $aArray2[$mKey]);
-                    if (count($aRecursiveDiff)) { $aReturn[$mKey] = $aRecursiveDiff; }
+                    if (count($aRecursiveDiff)) {
+                        $aReturn[$mKey] = $aRecursiveDiff;
+                    }
                 } else {
                     if ($mValue != $aArray2[$mKey]) {
                         $aReturn[$mKey] = $mValue;
@@ -60,25 +65,27 @@ class VrijBrpService
                 $aReturn[$mKey] = $mValue;
             }
         }
+
         return $aReturn;
-    }
+
+    }//end arrayRecursiveDiff()
+
 
     public function createNotification(array $data, array $config): array
     {
         var_dump('hello');
 
-
         $object = $data['object'];
 
-        if($object instanceof ObjectEntity) {
+        if ($object instanceof ObjectEntity) {
             $data    = $object->toArray(['embedded' => true, 'user' => $this->cacheService->getObjectUser(objectEntity: $object)]);
             $oldData = $this->cacheService->getObject($object->getId());
 
             $diff = $this->arrayRecursiveDiff($data, $oldData);
 
-            if(array_key_exists(key: 'status', array: $diff) === true) {
-                $now = new DateTime();
-                $message = [
+            if (array_key_exists(key: 'status', array: $diff) === true) {
+                $now           = new DateTime();
+                $message       = [
                     'kanaal'       => 'zaak.status.created',
                     'hoofdobject'  => $data['url'],
                     'resource'     => 'Zaak',
@@ -94,11 +101,11 @@ class VrijBrpService
                 $messageObject->hydrate($message);
                 $this->entityManager->persist($messageObject);
             }
-        }
+        }//end if
 
         return $data;
 
-    }
+    }//end createNotification()
 
 
 }//end class
