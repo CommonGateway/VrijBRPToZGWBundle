@@ -1,8 +1,8 @@
 {
-  "title": "ZgwToVrijbrpBirthAction",
+  "title": "Sync Cases from VrijBRP",
   "$id": "https://vrijbrp.nl/action/vrijbrp.synczaken.action.json",
-  "$schema": "https://json-schema.org/draft/2020-12/action",
-  "version": "0.0.2",
+  "$schema": "https://docs.commongateway.nl/schemas/Action.schema.json",
+  "version": "0.0.3",
   "listens": [
     "vrijbrp.zaken.sync"
   ],
