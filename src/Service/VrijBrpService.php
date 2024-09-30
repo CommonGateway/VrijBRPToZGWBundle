@@ -13,7 +13,7 @@ class VrijBrpService
 
 
     public function __construct(
-        private readonly CacheService           $cacheService,
+        private readonly CacheService $cacheService,
         private readonly GatewayResourceService $resourceService,
         private readonly EntityManagerInterface $entityManager,
     ) {
@@ -78,8 +78,8 @@ class VrijBrpService
         if ($object instanceof ObjectEntity) {
             $objectData = $object->toArray(['embedded' => true, 'user' => $this->cacheService->getObjectUser(objectEntity: $object)]);
 
-            $now = new DateTime();
-            $message = [
+            $now           = new DateTime();
+            $message       = [
                 'kanaal'       => 'zaak.status.created',
                 'hoofdobject'  => $objectData['zaak'],
                 'resource'     => 'Zaak',
@@ -87,14 +87,13 @@ class VrijBrpService
                 'actie'        => 'create',
                 'aanmaakdatum' => $now->format('c'),
             ];
-            $schema = $this->resourceService->getSchema(
+            $schema        = $this->resourceService->getSchema(
                 reference: 'https://zgw.opencatalogi.nl/schema/nrc.message.schema.json',
                 pluginName: 'common-gateway/vrijbrp-to-zgw-bundle'
             );
             $messageObject = new ObjectEntity(entity: $schema);
             $messageObject->hydrate($message);
             $this->entityManager->persist($messageObject);
-
         }//end if
 
         return $data;
