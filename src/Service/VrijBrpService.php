@@ -13,7 +13,7 @@ class VrijBrpService
 
 
     public function __construct(
-        private readonly CacheService $cacheService,
+        private readonly CacheService           $cacheService,
         private readonly GatewayResourceService $resourceService,
         private readonly EntityManagerInterface $entityManager,
     ) {
@@ -73,34 +73,28 @@ class VrijBrpService
 
     public function createNotification(array $data, array $config): array
     {
-        var_dump('hello');
-
         $object = $data['object'];
 
         if ($object instanceof ObjectEntity) {
-            $data    = $object->toArray(['embedded' => true, 'user' => $this->cacheService->getObjectUser(objectEntity: $object)]);
-            $oldData = $this->cacheService->getObject($object->getId());
+            $objectData = $object->toArray(['embedded' => true, 'user' => $this->cacheService->getObjectUser(objectEntity: $object)]);
 
-            $diff = $this->arrayRecursiveDiff($data, $oldData);
+            $now = new DateTime();
+            $message = [
+                'kanaal'       => 'zaak.status.created',
+                'hoofdobject'  => $objectData['zaak'],
+                'resource'     => 'Zaak',
+                'resourceUrl'  => $objectData['zaak'],
+                'actie'        => 'create',
+                'aanmaakdatum' => $now->format('c'),
+            ];
+            $schema = $this->resourceService->getSchema(
+                reference: 'https://zgw.opencatalogi.nl/schema/nrc.message.schema.json',
+                pluginName: 'common-gateway/vrijbrp-to-zgw-bundle'
+            );
+            $messageObject = new ObjectEntity(entity: $schema);
+            $messageObject->hydrate($message);
+            $this->entityManager->persist($messageObject);
 
-            if (array_key_exists(key: 'status', array: $diff) === true) {
-                $now           = new DateTime();
-                $message       = [
-                    'kanaal'       => 'zaak.status.created',
-                    'hoofdobject'  => $data['url'],
-                    'resource'     => 'Zaak',
-                    'resourceUrl'  => $data['url'],
-                    'actie'        => 'create',
-                    'aanmaakdatum' => $now->format('c'),
-                ];
-                $schema        = $this->resourceService->getSchema(
-                    reference:'https://zgw.opencatalogi.nl/schema/nrc.message.schema.json',
-                    pluginName: 'common-gateway/vrijbrp-to-zgw-bundle'
-                );
-                $messageObject = new ObjectEntity(entity: $schema);
-                $messageObject->hydrate($message);
-                $this->entityManager->persist($messageObject);
-            }
         }//end if
 
         return $data;
