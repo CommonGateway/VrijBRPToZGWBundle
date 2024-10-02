@@ -16,6 +16,7 @@ class VrijBrpService
         private readonly CacheService $cacheService,
         private readonly GatewayResourceService $resourceService,
         private readonly EntityManagerInterface $entityManager,
+        private readonly NewSynchronizationService $synchronizationService,
     ) {
 
     }//end __construct()
@@ -100,20 +101,47 @@ class VrijBrpService
 
     }//end createStatusNotification()
 
+    public function extendSync(ObjectEntity $object, array $array): ObjectEntity
+    {
+        $type = $array['toelichting'];
+
+        if($type === 'intra_mun_relocation') {
+            $endpoint = '/api/v1/relocations/intra/';
+        } else {
+            $endpoint = '/api/v1/relocations/inter/';
+        }
+
+        $synchronization = $object->getSynchronizations()[0];
+
+        $synchronization->setEndpoint($endpoint);
+
+        $this->synchronizationService->synchronizeFromSource($synchronization);
+
+        $this->entityManager->flush();
+
+        return $synchronization->getObject();
+    }
+
 
     public function createCaseNotification(array $data, array $config): array
     {
         $object = $data['object'];
 
         if ($object instanceof ObjectEntity) {
-            $objectData = $object->toArray(['embedded' => true, 'user' => $this->cacheService->getObjectUser(objectEntity: $object)]);
+            $array = $object->toArray(['embedded' => true]);
+
+            if(in_array(needle: $array['toelichting'], haystack: ['intra_mun_relocation', 'inter_mun_relocation']) === true)
+            {
+                $this->extendSync($object, $array);
+            }
+
 
             $now           = new DateTime();
             $message       = [
                 'kanaal'       => 'zaak.created',
-                'hoofdobject'  => $objectData['identificatie'],
+                'hoofdObject'  => $object->getUri(),
                 'resource'     => 'Zaak',
-                'resourceUrl'  => $objectData['identificatie'],
+                'resourceUrl'  => $object->getUri(),
                 'actie'        => 'create',
                 'aanmaakdatum' => $now->format('c'),
             ];
