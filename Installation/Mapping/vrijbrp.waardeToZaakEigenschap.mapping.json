@@ -1,0 +1,19 @@
+{
+  "title": "WaardeToZaakEigenschap",
+  "$id": "https://commongateway.nl/mapping/vrijbrp.waardeToZaakEigenschap.mapping.json",
+  "$schema": "https://docs.commongateway.nl/schemas/Mapping.schema.json",
+  "version": "0.0.1",
+  "passTrough": false,
+  "mapping": {
+    "_sourceId": "{% if dossierId|default and naam|default %}{{ dossierId~' '~naam }}{% endif %}",
+    "naam": "naam",
+    "waarde": "waarde",
+    "eigenschap": "eigenschapUrl"
+  },
+  "cast": {
+    "_sourceId": "unsetIfValue==",
+    "naam": "unsetIfValue==naam",
+    "waarde": "unsetIfValue==waarde",
+    "eigenschap": "unsetIfValue==eigenschapUrl"
+  }
+}
