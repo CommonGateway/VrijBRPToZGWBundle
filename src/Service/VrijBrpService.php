@@ -71,7 +71,7 @@ class VrijBrpService
     }//end arrayRecursiveDiff()
 
 
-    public function createNotification(array $data, array $config): array
+    public function createStatusNotification(array $data, array $config): array
     {
         $object = $data['object'];
 
@@ -84,6 +84,36 @@ class VrijBrpService
                 'hoofdobject'  => $objectData['zaak'],
                 'resource'     => 'Zaak',
                 'resourceUrl'  => $objectData['zaak'],
+                'actie'        => 'create',
+                'aanmaakdatum' => $now->format('c'),
+            ];
+            $schema        = $this->resourceService->getSchema(
+                reference: 'https://zgw.opencatalogi.nl/schema/nrc.message.schema.json',
+                pluginName: 'common-gateway/vrijbrp-to-zgw-bundle'
+            );
+            $messageObject = new ObjectEntity(entity: $schema);
+            $messageObject->hydrate($message);
+            $this->entityManager->persist($messageObject);
+        }//end if
+
+        return $data;
+
+    }//end createStatusNotification()
+
+
+    public function createCaseNotification(array $data, array $config): array
+    {
+        $object = $data['object'];
+
+        if ($object instanceof ObjectEntity) {
+            $objectData = $object->toArray(['embedded' => true, 'user' => $this->cacheService->getObjectUser(objectEntity: $object)]);
+
+            $now           = new DateTime();
+            $message       = [
+                'kanaal'       => 'zaak.created',
+                'hoofdobject'  => $objectData['identificatie'],
+                'resource'     => 'Zaak',
+                'resourceUrl'  => $objectData['identificatie'],
                 'actie'        => 'create',
                 'aanmaakdatum' => $now->format('c'),
             ];
