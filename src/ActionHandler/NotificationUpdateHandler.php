@@ -9,6 +9,7 @@ use CommonGateway\CoreBundle\ActionHandler\ActionHandlerInterface;
 class NotificationUpdateHandler implements ActionHandlerInterface
 {
 
+
     public function __construct(
         private readonly VrijBrpService $vrijBrpService,
     ) {

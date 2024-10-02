@@ -128,7 +128,7 @@ class VrijBrpService
 
         return $data;
 
-    }//end createNotification()
+    }//end createCaseNotification()
 
 
 }//end class
