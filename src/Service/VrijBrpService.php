@@ -101,11 +101,12 @@ class VrijBrpService
 
     }//end createStatusNotification()
 
+
     public function extendSync(ObjectEntity $object, array $array): ObjectEntity
     {
         $type = $array['toelichting'];
 
-        if($type === 'intra_mun_relocation') {
+        if ($type === 'intra_mun_relocation') {
             $endpoint = '/api/v1/relocations/intra/';
         } else {
             $endpoint = '/api/v1/relocations/inter/';
@@ -120,7 +121,8 @@ class VrijBrpService
         $this->entityManager->flush();
 
         return $synchronization->getObject();
-    }
+
+    }//end extendSync()
 
 
     public function createCaseNotification(array $data, array $config): array
@@ -130,11 +132,9 @@ class VrijBrpService
         if ($object instanceof ObjectEntity) {
             $array = $object->toArray(['embedded' => true]);
 
-            if(in_array(needle: $array['toelichting'], haystack: ['intra_mun_relocation', 'inter_mun_relocation']) === true)
-            {
+            if (in_array(needle: $array['toelichting'], haystack: ['intra_mun_relocation', 'inter_mun_relocation']) === true) {
                 $this->extendSync($object, $array);
             }
-
 
             $now           = new DateTime();
             $message       = [
