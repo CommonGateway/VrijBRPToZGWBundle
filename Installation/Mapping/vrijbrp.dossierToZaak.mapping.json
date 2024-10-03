@@ -8,12 +8,13 @@
     "_sourceId": "dossierId",
     "identificatie": "dossierId",
     "omschrijving": "description",
+    "toelichting": "type.code",
     "bronorganisatie": "bronorganisatie",
     "verantwoordelijkeOrganisatie": "bronorganisatie",
     "zaaktype": "zaaktypeUrl",
     "registratiedatum": "entryDateTime",
     "startdatum": "startDate",
-    "status": "{% if status|default %}{% if dossierId|default %}{% set status = status|merge({'dossierId': dossierId}) %}{% endif %}{{ map('https://commongateway.nl/mapping/vrijbrp.statusToZGWStatus.mapping.json', status)|json_encode }}"
+    "status": "{% if status|default %}{% if dossierId|default %}{% set status = status|merge({'dossierId': dossierId}) %}{% endif %}{{ map('https:\/\/commongateway.nl\/mapping\/vrijbrp.statusToZGWStatus.mapping.json', status)|json_encode }}{% endif %}"
   },
   "cast": {
     "_sourceId": "unsetIfValue==dossierId",

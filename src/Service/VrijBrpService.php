@@ -82,7 +82,7 @@ class VrijBrpService
             $now           = new DateTime();
             $message       = [
                 'kanaal'       => 'zaak.status.created',
-                'hoofdobject'  => $objectData['zaak'],
+                'hoofdObject'  => $objectData['zaak'],
                 'resource'     => 'Zaak',
                 'resourceUrl'  => $objectData['zaak'],
                 'actie'        => 'create',
@@ -109,9 +109,9 @@ class VrijBrpService
         $detailMapping = $this->resourceService->getMapping('https://commongateway.nl/mapping/vrijbrp.dossierToZaakDetail.mapping.json', 'common-gateway/vrijbrp-to-zgw-bundle');
 
         if ($type === 'intra_mun_relocation') {
-            $endpoint = '/api/v1/relocations/intra/';
+            $endpoint = '/api/v1/relocations/intra';
         } else {
-            $endpoint = '/api/v1/relocations/inter/';
+            $endpoint = '/api/v1/relocations/inter';
         }
 
         $synchronization = $object->getSynchronizations()[0];
@@ -120,8 +120,6 @@ class VrijBrpService
         $synchronization->setMapping($detailMapping);
 
         $this->synchronizationService->synchronizeFromSource($synchronization);
-
-        $this->entityManager->flush();
 
         return $synchronization->getObject();
 
