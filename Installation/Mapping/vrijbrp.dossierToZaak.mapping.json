@@ -13,10 +13,8 @@
     "zaaktype": "zaaktypeUrl",
     "registratiedatum": "entryDateTime",
     "startdatum": "startDate",
-    "eigenschappen": "[{% if eigenschappen|default %}{% for eigenschap in eigenschappen %}{% if index > 0 %}, {% endif %}{% set eigenschap = eigenschap|merge({'dossierId': dossierId}) %}{{ map('https://commongateway.nl/mapping/vrijbrp.waardeToZaakEigenschap.mapping.json', eigenschap)|json_encode }}{% endfor %}{%endif%}]",
-    "rollen": "[{% if declarant.bsn|default %}{% set bsnArray = {'bsn': declarant.bsn, 'dossierId': dossierId} %}{% if roltypeUrl|default %}{% set bsnArray = bsnArray|merge({'roltypeUrl': roltypeUrl}) %}{% endif %}{{ map('https://commongateway.nl/mapping/vrijbrp.bsnToRol.mapping.json', bsnArray)|json_encode }}{% endif %}]",
-    "zaakinformatieobjecten": "[{% if documents|default %}{% set index = 0 %}{% for document in documents %}{% if index > 0 %}, {% endif %}{% if bronorganisatie|default %}{% set document = document|merge({'bronorganisatie': bronorganisatie}) %}{% endif %}{% if informatieobjecttypeUrl|default %}{% set document = document|merge({'informatieobjecttypeUrl': informatieobjecttypeUrl}) %}{% endif %}{{ map('https://commongateway.nl/mapping/vrijbrp.documentToZaakInformatieObject.mapping.json', document)|json_encode }}{% index = index + 1 %}{% endfor %}{% endif %}]",
-    "status": "[{% if status|default %}{% if dossierId|default %}{% set status = status|merge({'dossierId': dossierId}) %}{% endif %}{{ map('https://commongateway.nl/mapping/vrijbrp.statusToZGWStatus.mapping.json', status)|json_encode }}]",
+    "status": "{% if status|default %}{% if dossierId|default %}{% set status = status|merge({'dossierId': dossierId}) %}{% endif %}{{ map('https://commongateway.nl/mapping/vrijbrp.statusToZGWStatus.mapping.json', status)|json_encode }}"
+  },
   "cast": {
     "_sourceId": "unsetIfValue==dossierId",
     "identificatie": "unsetIfValue==dossierId",
@@ -26,8 +24,6 @@
     "zaaktype": "unsetIfValue==zaaktypeUrl",
     "registratiedatum": "unsetIfValue==entryDateTime",
     "startdatum": "unsetIfValue==startDate",
-    "rollen": "jsonToArray",
-    "statussen": "jsonToArray",
-    "zaakinformatieobjecten": "jsonToArray"
+    "status": "jsonToArray"
   }
 }

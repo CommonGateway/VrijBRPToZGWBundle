@@ -106,6 +106,8 @@ class VrijBrpService
     {
         $type = $array['toelichting'];
 
+        $detailMapping = $this->resourceService->getMapping('https://commongateway.nl/mapping/vrijbrp.dossierToZaakDetail.mapping.json', 'common-gateway/vrijbrp-to-zgw-bundle');
+
         if ($type === 'intra_mun_relocation') {
             $endpoint = '/api/v1/relocations/intra/';
         } else {
@@ -115,6 +117,7 @@ class VrijBrpService
         $synchronization = $object->getSynchronizations()[0];
 
         $synchronization->setEndpoint($endpoint);
+        $synchronization->setMapping($detailMapping);
 
         $this->synchronizationService->synchronizeFromSource($synchronization);
 
