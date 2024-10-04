@@ -37,12 +37,12 @@ class NewSynchronizationService
 
     public function __construct(
         private readonly GatewayResourceService $resourceService,
-        private readonly CallService            $callService,
+        private readonly CallService $callService,
         private readonly SynchronizationService $syncService,
-        private readonly LoggerInterface        $synchronizationLogger,
+        private readonly LoggerInterface $synchronizationLogger,
         private readonly EntityManagerInterface $entityManager,
-        private readonly MappingService         $mappingService,
-        private readonly HydrationService       $hydrationService,
+        private readonly MappingService $mappingService,
+        private readonly HydrationService $hydrationService,
     ) {
 
     }//end __construct()

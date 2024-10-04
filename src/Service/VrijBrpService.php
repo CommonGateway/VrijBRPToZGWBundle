@@ -23,15 +23,15 @@ class VrijBrpService
 
 
     /**
-     * @param CacheService $cacheService
-     * @param GatewayResourceService $resourceService
-     * @param EntityManagerInterface $entityManager
+     * @param CacheService              $cacheService
+     * @param GatewayResourceService    $resourceService
+     * @param EntityManagerInterface    $entityManager
      * @param NewSynchronizationService $syncService
      */
     public function __construct(
-        private readonly CacheService              $cacheService,
-        private readonly GatewayResourceService    $resourceService,
-        private readonly EntityManagerInterface    $entityManager,
+        private readonly CacheService $cacheService,
+        private readonly GatewayResourceService $resourceService,
+        private readonly EntityManagerInterface $entityManager,
         private readonly NewSynchronizationService $syncService,
     ) {
 
@@ -41,7 +41,7 @@ class VrijBrpService
     /**
      * Set defaults for configuration of synchronize action.
      *
-     * @param array $configuration Incoming configuration.
+     * @param  array $configuration Incoming configuration.
      * @return array
      */
     public function setVrijBRPDefaults(array $configuration): array
@@ -67,11 +67,12 @@ class VrijBrpService
 
     }//end setVrijBRPDefaults()
 
+
     /**
      * Creates a status notification.
      *
-     * @param array $data   incoming data.
-     * @param array $config incoming configuration.
+     * @param  array $data   incoming data.
+     * @param  array $config incoming configuration.
      * @return array
      */
     public function createStatusNotification(array $data, array $config): array
@@ -107,8 +108,8 @@ class VrijBrpService
     /**
      * Specific extension: fetch second source and run mapping.
      *
-     * @param ObjectEntity $object Incoming object
-     * @param array        $array  Serialised incoming object
+     * @param  ObjectEntity $object Incoming object
+     * @param  array        $array  Serialised incoming object
      * @return ObjectEntity
      */
     public function extendSync(ObjectEntity $object, array $array): ObjectEntity
@@ -138,8 +139,8 @@ class VrijBrpService
     /**
      * Fire notification for case creation. Also extend case with data from detail endpoint.
      *
-     * @param array $data   Incoming data
-     * @param array $config Incoming configuration
+     * @param  array $data   Incoming data
+     * @param  array $config Incoming configuration
      * @return array
      */
     public function createCaseNotification(array $data, array $config): array

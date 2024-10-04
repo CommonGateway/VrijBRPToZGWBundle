@@ -20,13 +20,12 @@ class SynchronizeCollectionHandler implements ActionHandlerInterface
 
     /**
      * @param NewSynchronizationService $syncService
-     * @param VrijBrpService $vrijBrpService
+     * @param VrijBrpService            $vrijBrpService
      */
     public function __construct(
         private readonly NewSynchronizationService $syncService,
-        private readonly VrijBrpService            $vrijBrpService,
-    )
-    {
+        private readonly VrijBrpService $vrijBrpService,
+    ) {
 
     }//end __construct()
 
@@ -41,38 +40,45 @@ class SynchronizeCollectionHandler implements ActionHandlerInterface
     public function getConfiguration(): array
     {
         return [
-            '$id' => 'https://commongateway.nl/ActionHandler/SynchronizationCollectionHandler.ActionHandler.json',
-            '$schema' => 'https://docs.commongateway.nl/schemas/ActionHandler.schema.json',
-            'title' => 'SynchronizationCollectionHandler',
+            '$id'         => 'https://commongateway.nl/ActionHandler/SynchronizationCollectionHandler.ActionHandler.json',
+            '$schema'     => 'https://docs.commongateway.nl/schemas/ActionHandler.schema.json',
+            'title'       => 'SynchronizationCollectionHandler',
             'description' => '',
-            'required' => ['source', 'schema', 'endpoint', 'idField', 'resultsPath'],
-            'properties' => [
-                'source' => [
-                    'type' => 'string',
+            'required'    => [
+                'source',
+                'schema',
+                'endpoint',
+                'idField',
+                'resultsPath',
+            ],
+            'properties'  => [
+                'source'      => [
+                    'type'        => 'string',
                     'description' => 'The source where the publication belongs to.',
-                    'example' => 'https://commongateway.woo.nl/source/buren.openwoo.source.json',
-                    'required' => true,
+                    'example'     => 'https://commongateway.woo.nl/source/buren.openwoo.source.json',
+                    'required'    => true,
                 ],
-                'schema' => [
-                    'type' => 'string',
+                'schema'      => [
+                    'type'        => 'string',
                     'description' => 'The publication schema.',
-                    'example' => 'https://commongateway.nl/woo.publicatie.schema.json',
-                    'reference' => 'https://commongateway.nl/woo.publicatie.schema.json',
-                    'required' => true,
-                ], 'mapping' => [
-                    'type' => 'string',
-                    'description' => 'The mapping for open woo to publication.',
-                    'example' => 'https://commongateway.nl/mapping/woo.openWooToWoo.mapping.json',
-                    'reference' => 'https://commongateway.nl/mapping/woo.openWooToWoo.mapping.json',
-                    'required' => false,
+                    'example'     => 'https://commongateway.nl/woo.publicatie.schema.json',
+                    'reference'   => 'https://commongateway.nl/woo.publicatie.schema.json',
+                    'required'    => true,
                 ],
-                'endpoint' => [
+                'mapping'     => [
+                    'type'        => 'string',
+                    'description' => 'The mapping for open woo to publication.',
+                    'example'     => 'https://commongateway.nl/mapping/woo.openWooToWoo.mapping.json',
+                    'reference'   => 'https://commongateway.nl/mapping/woo.openWooToWoo.mapping.json',
+                    'required'    => false,
+                ],
+                'endpoint'    => [
                     'type'        => 'string',
                     'description' => 'The endpoint of the source.',
                     'example'     => '/wp-json/owc/openwoo/v1/items',
                     'required'    => true,
                 ],
-                'idField' => [
+                'idField'     => [
                     'type'        => 'string',
                     'description' => 'Dot-array location of the field that contains the id',
                     'example'     => 'dossierId',
@@ -84,7 +90,7 @@ class SynchronizeCollectionHandler implements ActionHandlerInterface
                     'example'     => 'dossierId',
                     'required'    => true,
                 ],
-                'body' => [
+                'body'        => [
                     'type'        => 'array',
                     'description' => 'Body that will be sent to the source if necessary.',
                     'example'     => 'dossierId',
@@ -100,7 +106,7 @@ class SynchronizeCollectionHandler implements ActionHandlerInterface
     /**
      * Run the actual business logic in the appropriate server.
      *
-     * @param array $data The data from the call
+     * @param array $data          The data from the call
      * @param array $configuration The configuration of the action
      *
      * @return array
