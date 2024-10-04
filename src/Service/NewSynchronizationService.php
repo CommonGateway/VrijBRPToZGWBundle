@@ -9,6 +9,7 @@ use App\Entity\Synchronization;
 use App\Service\SynchronizationService;
 use CommonGateway\CoreBundle\Service\CallService;
 use CommonGateway\CoreBundle\Service\GatewayResourceService;
+use CommonGateway\CoreBundle\Service\HydrationService;
 use CommonGateway\CoreBundle\Service\MappingService;
 use DateInterval;
 use DateTime;
@@ -41,6 +42,7 @@ class NewSynchronizationService
         private readonly LoggerInterface $synchronizationLogger,
         private readonly EntityManagerInterface $entityManager,
         private readonly MappingService $mappingService,
+        private readonly HydrationService $hydrationService,
     ) {
 
     }//end __construct()
@@ -118,7 +120,8 @@ class NewSynchronizationService
             $sourceObject = $this->mappingService->mapping($synchronization->getMapping(), $sourceObject);
         }
 
-        $synchronization->getObject()->hydrate($sourceObject, $unsafe);
+        $object = $this->hydrationService->searchAndReplaceSynchronizations(object: $sourceObject, source: $synchronization->getSource(), entity: $synchronization->getEntity(), flush: false);
+        $synchronization->setObject($object);
 
         $synchronization->setSha($sha);
 
@@ -183,8 +186,19 @@ class NewSynchronizationService
         $source = $this->resourceService->getSource(reference: $configuration['source'], pluginName: "common-gateway/vrijbrp-to-zgw-bundle");
         $schema = $this->resourceService->getSchema(reference: $configuration['schema'], pluginName: "common-gateway/vrijbrp-to-zgw-bundle");
 
+        if($source === null) {
+            return $data;
+        }
+        if($schema === null) {
+            return $data;
+        }
+
         if (isset($configuration['mapping']) === true) {
             $mapping = $this->resourceService->getMapping(reference: $configuration['mapping'], pluginName: "common-gateway/vrijbrp-to-zgw-bundle");
+
+            if($mapping === null) {
+                return $data;
+            }
         }
 
         try {
