@@ -8,20 +8,42 @@ use CommonGateway\CoreBundle\Service\GatewayResourceService;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 
+/**
+ * Service for project specific code.
+ *
+ * Service for project specific code. More specifically: creating notifications and setting defaults.
+ *
+ * @author  Robert Zondervan, Barry Brands, Ruben van der Linde
+ * @license EUPL<github.com/ConductionNL/contactcatalogus/blob/master/LICENSE.md>
+ *
+ * @category Service
+ */
 class VrijBrpService
 {
 
 
+    /**
+     * @param CacheService $cacheService
+     * @param GatewayResourceService $resourceService
+     * @param EntityManagerInterface $entityManager
+     * @param NewSynchronizationService $syncService
+     */
     public function __construct(
-        private readonly CacheService $cacheService,
-        private readonly GatewayResourceService $resourceService,
-        private readonly EntityManagerInterface $entityManager,
-        private readonly NewSynchronizationService $synchronizationService,
+        private readonly CacheService              $cacheService,
+        private readonly GatewayResourceService    $resourceService,
+        private readonly EntityManagerInterface    $entityManager,
+        private readonly NewSynchronizationService $syncService,
     ) {
 
     }//end __construct()
 
 
+    /**
+     * Set defaults for configuration of synchronize action.
+     *
+     * @param array $configuration Incoming configuration.
+     * @return array
+     */
     public function setVrijBRPDefaults(array $configuration): array
     {
         if (isset($configuration['endpoint']) === false) {
@@ -45,33 +67,13 @@ class VrijBrpService
 
     }//end setVrijBRPDefaults()
 
-
-    function arrayRecursiveDiff($aArray1, $aArray2)
-    {
-        $aReturn = [];
-
-        foreach ($aArray1 as $mKey => $mValue) {
-            if (array_key_exists($mKey, $aArray2)) {
-                if (is_array($mValue)) {
-                    $aRecursiveDiff = $this->arrayRecursiveDiff($mValue, $aArray2[$mKey]);
-                    if (count($aRecursiveDiff)) {
-                        $aReturn[$mKey] = $aRecursiveDiff;
-                    }
-                } else {
-                    if ($mValue != $aArray2[$mKey]) {
-                        $aReturn[$mKey] = $mValue;
-                    }
-                }
-            } else {
-                $aReturn[$mKey] = $mValue;
-            }
-        }
-
-        return $aReturn;
-
-    }//end arrayRecursiveDiff()
-
-
+    /**
+     * Creates a status notification.
+     *
+     * @param array $data   incoming data.
+     * @param array $config incoming configuration.
+     * @return array
+     */
     public function createStatusNotification(array $data, array $config): array
     {
         $object = $data['object'];
@@ -102,6 +104,13 @@ class VrijBrpService
     }//end createStatusNotification()
 
 
+    /**
+     * Specific extension: fetch second source and run mapping.
+     *
+     * @param ObjectEntity $object Incoming object
+     * @param array        $array  Serialised incoming object
+     * @return ObjectEntity
+     */
     public function extendSync(ObjectEntity $object, array $array): ObjectEntity
     {
         $type = $array['toelichting'];
@@ -119,13 +128,20 @@ class VrijBrpService
         $synchronization->setEndpoint($endpoint);
         $synchronization->setMapping($detailMapping);
 
-        $this->synchronizationService->synchronizeFromSource($synchronization);
+        $this->syncService->synchronizeFromSource($synchronization);
 
         return $synchronization->getObject();
 
     }//end extendSync()
 
 
+    /**
+     * Fire notification for case creation. Also extend case with data from detail endpoint.
+     *
+     * @param array $data   Incoming data
+     * @param array $config Incoming configuration
+     * @return array
+     */
     public function createCaseNotification(array $data, array $config): array
     {
         $object = $data['object'];

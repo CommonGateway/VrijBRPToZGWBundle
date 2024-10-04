@@ -37,12 +37,12 @@ class NewSynchronizationService
 
     public function __construct(
         private readonly GatewayResourceService $resourceService,
-        private readonly CallService $callService,
-        private readonly SynchronizationService $synchronizationService,
-        private readonly LoggerInterface $synchronizationLogger,
+        private readonly CallService            $callService,
+        private readonly SynchronizationService $syncService,
+        private readonly LoggerInterface        $synchronizationLogger,
         private readonly EntityManagerInterface $entityManager,
-        private readonly MappingService $mappingService,
-        private readonly HydrationService $hydrationService,
+        private readonly MappingService         $mappingService,
+        private readonly HydrationService       $hydrationService,
     ) {
 
     }//end __construct()
@@ -79,7 +79,7 @@ class NewSynchronizationService
             $oldDateModified = $synchronization->getObject()->getDateModified()->getTimestamp();
         }
 
-        $sourceObject = $sourceObject ?: $this->synchronizationService->getSingleFromSource($synchronization);
+        $sourceObject = $sourceObject ?: $this->syncService->getSingleFromSource($synchronization);
 
         if ($sourceObject === null) {
             $this->synchronizationLogger->warning("Can not handle Synchronization with id = {$synchronization->getId()->toString()} if \$sourceObject === null");
@@ -212,7 +212,7 @@ class NewSynchronizationService
         foreach ($dossiers as $dossier) {
             $dossierDot = new Dot($dossier);
 
-            $synchronization = $this->synchronizationService->findSyncBySource(source: $source, entity: $schema, sourceId: $dossierDot[$configuration['idField']], endpoint: $configuration['endpoint']);
+            $synchronization = $this->syncService->findSyncBySource(source: $source, entity: $schema, sourceId: $dossierDot[$configuration['idField']], endpoint: $configuration['endpoint']);
 
             if ($synchronization->getMapping() === null && isset($mapping) === true) {
                 $synchronization->setMapping($mapping);
