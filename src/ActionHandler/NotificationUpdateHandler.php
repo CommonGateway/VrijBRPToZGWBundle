@@ -6,10 +6,21 @@ use CommonGateway\VrijBRPToZGWBundle\Service\NewSynchronizationService;
 use CommonGateway\VrijBRPToZGWBundle\Service\VrijBrpService;
 use CommonGateway\CoreBundle\ActionHandler\ActionHandlerInterface;
 
+/**
+ * Handler for firing notifications for new statuses.
+ *
+ * @author  Robert Zondervan, Barry Brands, Ruben van der Linde
+ * @license EUPL<github.com/ConductionNL/contactcatalogus/blob/master/LICENSE.md>
+ *
+ * @category ActionHandler
+ */
 class NotificationUpdateHandler implements ActionHandlerInterface
 {
 
 
+    /**
+     * @param VrijBrpService $vrijBrpService The VrijBRP Service
+     */
     public function __construct(
         private readonly VrijBrpService $vrijBrpService,
     ) {
@@ -21,6 +32,7 @@ class NotificationUpdateHandler implements ActionHandlerInterface
      *  This function returns the requered configuration as a [json-schema](https://json-schema.org/) array.
      *
      * @throws array a [json-schema](https://json-schema.org/) that this  action should comply to
+     * @return array The default configuration options of this action handler.
      */
     public function getConfiguration(): array
     {
@@ -42,7 +54,7 @@ class NotificationUpdateHandler implements ActionHandlerInterface
      * @param array $data          The data from the call
      * @param array $configuration The configuration of the action
      *
-     * @return array
+     * @return array The updated data array.
      */
     public function run(array $data, array $configuration): array
     {

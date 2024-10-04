@@ -42,7 +42,8 @@ class VrijBrpService
      * Set defaults for configuration of synchronize action.
      *
      * @param  array $configuration Incoming configuration.
-     * @return array
+     *
+     * @return array The updated configuration array.
      */
     public function setVrijBRPDefaults(array $configuration): array
     {
@@ -73,7 +74,8 @@ class VrijBrpService
      *
      * @param  array $data   incoming data.
      * @param  array $config incoming configuration.
-     * @return array
+     *
+     * @return array The updated data array.
      */
     public function createStatusNotification(array $data, array $config): array
     {
@@ -110,7 +112,8 @@ class VrijBrpService
      *
      * @param  ObjectEntity $object Incoming object
      * @param  array        $array  Serialised incoming object
-     * @return ObjectEntity
+     *
+     * @return ObjectEntity The updated objectEntity.
      */
     public function extendSync(ObjectEntity $object, array $array): ObjectEntity
     {
@@ -141,7 +144,8 @@ class VrijBrpService
      *
      * @param  array $data   Incoming data
      * @param  array $config Incoming configuration
-     * @return array
+     *
+     * @return array The updated data array.
      */
     public function createCaseNotification(array $data, array $config): array
     {
