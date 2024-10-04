@@ -23,10 +23,12 @@ class VrijBrpService
 
 
     /**
-     * @param CacheService              $cacheService
-     * @param GatewayResourceService    $resourceService
-     * @param EntityManagerInterface    $entityManager
-     * @param NewSynchronizationService $syncService
+     * The constructor
+     *
+     * @param CacheService              $cacheService The cacheservice
+     * @param GatewayResourceService    $resourceService The resourceservice
+     * @param EntityManagerInterface    $entityManager The Entity manager
+     * @param NewSynchronizationService $syncService The synchronizationservice
      */
     public function __construct(
         private readonly CacheService $cacheService,
