@@ -35,6 +35,17 @@ class NewSynchronizationService
 {
 
 
+    /**
+     * The constructor.
+     *
+     * @param GatewayResourceService $resourceService The resourceService
+     * @param CallService $callService The callService
+     * @param SynchronizationService $syncService The SynchronizationService
+     * @param LoggerInterface $synchronizationLogger The Logger
+     * @param EntityManagerInterface $entityManager The Entity Manager
+     * @param MappingService $mappingService The mappingService
+     * @param HydrationService $hydrationService The hydrationService
+     */
     public function __construct(
         private readonly GatewayResourceService $resourceService,
         private readonly CallService $callService,

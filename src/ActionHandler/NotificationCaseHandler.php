@@ -18,6 +18,8 @@ class NotificationCaseHandler implements ActionHandlerInterface
 
 
     /**
+     * The constructor.
+     *
      * @param VrijBrpService $vrijBrpService The VrijBRP Service
      */
     public function __construct(

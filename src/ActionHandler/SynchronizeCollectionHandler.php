@@ -19,6 +19,8 @@ class SynchronizeCollectionHandler implements ActionHandlerInterface
 
 
     /**
+     * The constructor.
+     *
      * @param NewSynchronizationService $syncService    The synchronization service.
      * @param VrijBrpService            $vrijBrpService The VrijBRP service.
      */
