@@ -16,6 +16,7 @@ use CommonGateway\CoreBundle\ActionHandler\ActionHandlerInterface;
 class NotificationCaseHandler implements ActionHandlerInterface
 {
 
+
     /**
      * @param VrijBrpService $vrijBrpService The VrijBRP Service
      */
