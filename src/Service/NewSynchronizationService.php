@@ -186,17 +186,18 @@ class NewSynchronizationService
         $source = $this->resourceService->getSource(reference: $configuration['source'], pluginName: "common-gateway/vrijbrp-to-zgw-bundle");
         $schema = $this->resourceService->getSchema(reference: $configuration['schema'], pluginName: "common-gateway/vrijbrp-to-zgw-bundle");
 
-        if($source === null) {
+        if ($source === null) {
             return $data;
         }
-        if($schema === null) {
+
+        if ($schema === null) {
             return $data;
         }
 
         if (isset($configuration['mapping']) === true) {
             $mapping = $this->resourceService->getMapping(reference: $configuration['mapping'], pluginName: "common-gateway/vrijbrp-to-zgw-bundle");
 
-            if($mapping === null) {
+            if ($mapping === null) {
                 return $data;
             }
         }
