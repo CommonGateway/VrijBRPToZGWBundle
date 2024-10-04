@@ -6,9 +6,11 @@
   "passTrough": false,
   "mapping": {
     "_sourceId": "{% if dossierId|default and code|default %}{{ dossierId~code }}{% endif %}",
-    "statustype": "statustypeUrl",
-    "datumStatusGezet": "entryDateTime",
-    "indicatieLaatstGezetteStatus": "endStatus"
+    "statustype.omschrijving": "description",
+    "statustype.omschrijvingGeneriek": "code",
+    "statustype.isEindstatus": "endStatus",
+    "statustype._sourceId": "code",
+    "datumStatusGezet": "entryDateTime"
   },
   "cast": {
     "_sourceId": "unsetIfValue==",
