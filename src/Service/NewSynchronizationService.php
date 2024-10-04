@@ -171,7 +171,7 @@ class NewSynchronizationService
 
         if ($resultDot->has(keys: $configuration['resultsPath']) === true) {
             $return = $resultDot->get(key: $configuration['resultsPath']);
-            if ($return instanceof Dot) {
+            if ($return instanceof Dot === true) {
                 return $return->jsonSerialize();
             } else if (is_array($return)) {
                 return $return;
