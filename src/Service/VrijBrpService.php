@@ -88,10 +88,10 @@ class VrijBrpService
 
             $now           = new DateTime();
             $message       = [
-                'kanaal'       => 'zaak.status.created',
+                'kanaal'       => 'zaken',
                 'hoofdObject'  => $objectData['zaak'],
-                'resource'     => 'Zaak',
-                'resourceUrl'  => $objectData['zaak'],
+                'resource'     => 'status',
+                'resourceUrl'  => $objectData['url'],
                 'actie'        => 'create',
                 'aanmaakdatum' => $now->format('c'),
             ];
@@ -157,15 +157,17 @@ class VrijBrpService
             $array = $object->toArray(['embedded' => true]);
 
             if (in_array(needle: $array['toelichting'], haystack: ['intra_mun_relocation', 'inter_mun_relocation']) === true) {
-                $this->extendSync($object, $array);
+                $object = $this->extendSync($object, $array);
             }
+
+            $array = $object->toArray(['embedded' => true]);
 
             $now           = new DateTime();
             $message       = [
-                'kanaal'       => 'zaak.created',
+                'kanaal'       => 'zaken',
                 'hoofdObject'  => $object->getUri(),
-                'resource'     => 'Zaak',
-                'resourceUrl'  => $object->getUri(),
+                'resource'     => 'rol',
+                'resourceUrl'  => $array['rollen'][0]['url'],
                 'actie'        => 'create',
                 'aanmaakdatum' => $now->format('c'),
             ];
