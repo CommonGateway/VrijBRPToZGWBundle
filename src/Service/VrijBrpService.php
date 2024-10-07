@@ -159,6 +159,7 @@ class VrijBrpService
             if (in_array(needle: $array['toelichting'], haystack: ['intra_mun_relocation', 'inter_mun_relocation']) === true) {
                 $object = $this->extendSync($object, $array);
             }
+
             $array = $object->toArray(['embedded' => true]);
 
             $now           = new DateTime();
