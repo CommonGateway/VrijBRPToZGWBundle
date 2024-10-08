@@ -1,5 +1,5 @@
 {
-  "title": "Sync Cases from VrijBRP",
+  "title": "Sync Case from VrijBRP Notification",
   "$id": "https://commongateway.nl/action/vrijbrp.createZaakFromNotification.action.json",
   "$schema": "https://docs.commongateway.nl/schemas/Action.schema.json",
   "version": "0.0.1",
