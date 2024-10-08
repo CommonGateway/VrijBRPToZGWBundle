@@ -82,13 +82,13 @@ class NewSynchronizationService
 
         // create new object if no object exists
         if (!$synchronization->getObject()) {
-//            isset($this->io) && $this->io->text('creating new objectEntity');
-//            $this->synchronizationLogger->info('creating new objectEntity');
-//            $object = new ObjectEntity($synchronization->getEntity());
-//            $object->addSynchronization($synchronization);
-//            $this->entityManager->persist($object);
-//            var_dump('new');
-//            $this->entityManager->persist($synchronization);
+            // isset($this->io) && $this->io->text('creating new objectEntity');
+            // $this->synchronizationLogger->info('creating new objectEntity');
+            // $object = new ObjectEntity($synchronization->getEntity());
+            // $object->addSynchronization($synchronization);
+            // $this->entityManager->persist($object);
+            // var_dump('new');
+            // $this->entityManager->persist($synchronization);
             $oldDateModified = null;
         } else {
             $oldDateModified = $synchronization->getObject()->getDateModified()->getTimestamp();
@@ -270,7 +270,7 @@ class NewSynchronizationService
         $url      = $data['body']['data']['resourceUrl'];
         $sourceId = $data['body']['data']['zaakId'];
 
-        $length   = strlen($url) - strlen($source->getLocation()) - strlen($sourceId) -1;
+        $length = (strlen($url) - strlen($source->getLocation()) - strlen($sourceId) - 1);
 
         $endpoint = substr(string: $url, offset: strlen(string: $source->getLocation()), length: $length);
 
