@@ -7,6 +7,7 @@ use App\Entity\Gateway as Source;
 use App\Entity\ObjectEntity;
 use App\Entity\Synchronization;
 use App\Service\SynchronizationService;
+use CommonGateway\CoreBundle\Service\CacheService;
 use CommonGateway\CoreBundle\Service\CallService;
 use CommonGateway\CoreBundle\Service\GatewayResourceService;
 use CommonGateway\CoreBundle\Service\HydrationService;
@@ -45,6 +46,7 @@ class NewSynchronizationService
      * @param EntityManagerInterface $entityManager         The Entity Manager
      * @param MappingService         $mappingService        The mappingService
      * @param HydrationService       $hydrationService      The hydrationService
+     * @param CacheService           $cacheService          The Cache Service
      */
     public function __construct(
         private readonly GatewayResourceService $resourceService,
@@ -54,6 +56,7 @@ class NewSynchronizationService
         private readonly EntityManagerInterface $entityManager,
         private readonly MappingService $mappingService,
         private readonly HydrationService $hydrationService,
+        private readonly CacheService $cacheService
     ) {
 
     }//end __construct()
@@ -79,12 +82,13 @@ class NewSynchronizationService
 
         // create new object if no object exists
         if (!$synchronization->getObject()) {
-            isset($this->io) && $this->io->text('creating new objectEntity');
-            $this->synchronizationLogger->info('creating new objectEntity');
-            $object = new ObjectEntity($synchronization->getEntity());
-            $object->addSynchronization($synchronization);
-            $this->entityManager->persist($object);
-            $this->entityManager->persist($synchronization);
+//            isset($this->io) && $this->io->text('creating new objectEntity');
+//            $this->synchronizationLogger->info('creating new objectEntity');
+//            $object = new ObjectEntity($synchronization->getEntity());
+//            $object->addSynchronization($synchronization);
+//            $this->entityManager->persist($object);
+//            var_dump('new');
+//            $this->entityManager->persist($synchronization);
             $oldDateModified = null;
         } else {
             $oldDateModified = $synchronization->getObject()->getDateModified()->getTimestamp();
@@ -244,7 +248,46 @@ class NewSynchronizationService
 
     public function synchronizeFromNotificationHandler(array $data, array $configuration): array
     {
-        var_dump(array_keys($data));
+        $source = $this->resourceService->getSource(reference: $configuration['source'], pluginName: "common-gateway/vrijbrp-to-zgw-bundle");
+        $schema = $this->resourceService->getSchema(reference: $configuration['schema'], pluginName: "common-gateway/vrijbrp-to-zgw-bundle");
+
+        if ($source === null) {
+            return $data;
+        }
+
+        if ($schema === null) {
+            return $data;
+        }
+
+        if (isset($configuration['mapping']) === true) {
+            $mapping = $this->resourceService->getMapping(reference: $configuration['mapping'], pluginName: "common-gateway/vrijbrp-to-zgw-bundle");
+
+            if ($mapping === null) {
+                return $data;
+            }
+        }
+
+        $url      = $data['body']['data']['resourceUrl'];
+        $sourceId = $data['body']['data']['zaakId'];
+
+        $length   = strlen($url) - strlen($source->getLocation()) - strlen($sourceId) -1;
+
+        $endpoint = substr(string: $url, offset: strlen(string: $source->getLocation()), length: $length);
+
+        $synchronization = $this->syncService->findSyncBySource(source: $source, entity: $schema, sourceId: $sourceId, endpoint: $endpoint);
+
+        if ($synchronization->getMapping() === null && isset($mapping) === true) {
+            $synchronization->setMapping($mapping);
+        }
+
+        try {
+            $this->synchronizeFromSource(synchronization: $synchronization);
+            $this->entityManager->flush();
+
+            $this->cacheService->cacheObject($synchronization->getObject());
+        } catch (Exception $exception) {
+            $this->synchronizationLogger->error(message: $exception->getMessage(), context: ['plugin' => 'common-gateway/vrijbrp-to-zgw-bundle', 'trace' => $exception->getTraceAsString()]);
+        }
 
         return $data;
 

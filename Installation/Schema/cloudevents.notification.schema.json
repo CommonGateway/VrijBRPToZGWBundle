@@ -1,8 +1,8 @@
 {
-  "$id": "https://commongateway.nl/schema/notifications.notification.schema.json",
+  "$id": "https://commongateway.nl/schema/vrijbrp.cloudevent.schema.json",
   "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
-  "version": "0.1",
-  "title": "Notification",
+  "version": "0.2",
+  "title": "CloudEvent",
   "description": "A notification object conform ZGW Notification API: https://petstore.swagger.io/?url=https://raw.githubusercontent.com/VNG-Realisatie/notificaties-api/1.0.0/src/openapi.yaml#/notificaties/notificaties_create",
   "type": "object",
   "properties": {

@@ -1,5 +1,4 @@
 {
-  "installationService": "CommonGateway\\VrijBRPToZGWBundle\\Service\\InstallationService",
   "applications": [],
   "users": [],
   "cards": [],
@@ -8,15 +7,15 @@
   "endpoints": {
     "schemas": [
       {
-        "reference": "https://commongateway.nl/schema/notifications.notification.schema.json",
-        "description": "An endpoint for Notifications",
+        "reference": "https://commongateway.nl/schema/vrijbrp.cloudevent.schema.json",
+        "description": "An endpoint for CloudEvents",
         "path": "/vrijbrp/cloudevents",
         "version": "0.0.1",
         "methods": [
           "POST"
         ],
         "throws": [
-          "cloudevents.notification.created"
+          "vrijbrp.cloudevent.created"
         ]
       }
     ]
