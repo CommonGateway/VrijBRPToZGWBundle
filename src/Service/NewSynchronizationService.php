@@ -241,14 +241,14 @@ class NewSynchronizationService
 
     }//end synchronizeCollectionHandler()
 
+
     public function synchronizeFromNotificationHandler(array $data, array $configuration): array
     {
         var_dump(array_keys($data));
 
-
-
         return $data;
-    }
+
+    }//end synchronizeFromNotificationHandler()
 
 
 }//end class

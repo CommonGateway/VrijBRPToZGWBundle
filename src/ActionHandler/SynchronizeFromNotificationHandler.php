@@ -21,7 +21,7 @@ class SynchronizeFromNotificationHandler implements ActionHandlerInterface
     /**
      * The constructor.
      *
-     * @param NewSynchronizationService $syncService    The synchronization service.
+     * @param NewSynchronizationService $syncService The synchronization service.
      */
     public function __construct(
         private readonly NewSynchronizationService $syncService,
