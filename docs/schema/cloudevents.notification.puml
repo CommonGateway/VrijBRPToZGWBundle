@@ -1,7 +1,8 @@
 @startuml
-title: All schemas
+title: Notification
 footer: Common Gateway Plugin | Commongateway | Vrijbrptozgwbundle 
 header: Schema
+
 class Notification {
   + specversion: string
   + id: string
