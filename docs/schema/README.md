@@ -4,4 +4,4 @@
 
 | Class | Documentation |
 |-------|--------------|
-| Notification | [cloudevents.notification.md](cloudevents.notification.md) |
+| CloudEvent | [cloudevents.notification.md](cloudevents.notification.md) |

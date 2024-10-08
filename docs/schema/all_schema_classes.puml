@@ -2,7 +2,7 @@
 title: All schemas
 footer: Common Gateway Plugin | Commongateway | Vrijbrptozgwbundle 
 header: Schema
-class Notification {
+class CloudEvent {
   + specversion: string
   + id: string
   + source: string

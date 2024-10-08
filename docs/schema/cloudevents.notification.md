@@ -1,4 +1,4 @@
-# Notification
+# CloudEvent
 
 A notification object conform ZGW Notification API: https://petstore.swagger.io/?url=https://raw.githubusercontent.com/VNG-Realisatie/notificaties-api/1.0.0/src/openapi.yaml#/notificaties/notificaties_create
 
