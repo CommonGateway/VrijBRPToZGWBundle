@@ -1,9 +1,24 @@
 {
-    "installationService": "CommonGateway\\VrijBRPToZGWBundle\\Service\\InstallationService",
-    "applications": [],
-    "users": [],
-    "cards": [],
-    "actions":  [],
-    "collections": [],
-    "endpoints": []
+  "installationService": "CommonGateway\\VrijBRPToZGWBundle\\Service\\InstallationService",
+  "applications": [],
+  "users": [],
+  "cards": [],
+  "actions": [],
+  "collections": [],
+  "endpoints": {
+    "schemas": [
+      {
+        "reference": "https://commongateway.nl/schema/notifications.notification.schema.json",
+        "description": "An endpoint for Notifications",
+        "path": "/vrijbrp/cloudevents",
+        "version": "0.0.1",
+        "methods": [
+          "POST"
+        ],
+        "throws": [
+          "cloudevents.notification.created"
+        ]
+      }
+    ]
+  }
 }

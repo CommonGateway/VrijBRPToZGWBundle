@@ -167,7 +167,7 @@ class VrijBrpService
                 'kanaal'       => 'zaken',
                 'hoofdObject'  => $object->getUri(),
                 'resource'     => 'rol',
-                'resourceUrl'  => $array['rollen'][0]['url'],
+                'resourceUrl'  => $array['embedded']['rollen'][0]['url'],
                 'actie'        => 'create',
                 'aanmaakdatum' => $now->format('c'),
             ];

@@ -1,0 +1,61 @@
+{
+  "$id": "https://commongateway.nl/schema/notifications.notification.schema.json",
+  "$schema": "https://docs.commongateway.nl/schemas/Entity.schema.json",
+  "version": "0.1",
+  "title": "Notification",
+  "description": "A notification object conform ZGW Notification API: https://petstore.swagger.io/?url=https://raw.githubusercontent.com/VNG-Realisatie/notificaties-api/1.0.0/src/openapi.yaml#/notificaties/notificaties_create",
+  "type": "object",
+  "properties": {
+    "specversion": {
+      "type": "string",
+      "title": "specversion",
+      "description": "The spec version of the cloudEvents standard",
+      "maxLength": 50,
+      "minLength": 1,
+      "required": true
+    },
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "id",
+      "description": "The id of the event",
+      "minLength": 1,
+      "required": true
+    },
+    "source": {
+      "type": "string",
+      "format": "url",
+      "title": "source",
+      "description": "The source of the notification",
+      "maxLength": 255,
+      "required": true
+    },
+    "type": {
+      "type": "string",
+      "title": "type",
+      "description": "The type of notification",
+      "minLength": 1,
+      "required": true
+    },
+    "datacontenttype": {
+      "type": "string",
+      "title": "data content type",
+      "description": "The content type of the data in the notification.",
+      "maxLength": 100,
+      "minLength": 1,
+      "required": true
+    },
+    "data": {
+      "type": "array",
+      "description": "The content of the notification",
+      "nullable": true,
+      "items": {
+        "type": "string",
+        "title": "datum",
+        "description": "A value belonging to a key",
+        "maxLength": 1000,
+        "minLength": 1
+      }
+    }
+  }
+}
