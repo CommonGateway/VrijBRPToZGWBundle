@@ -154,14 +154,13 @@ class VrijBrpService
         $object = $data['object'];
 
         if ($object instanceof ObjectEntity === true) {
-//            $array = $object->toArray(['embedded' => true]);
-//
-//            if (in_array(needle: $array['toelichting'], haystack: ['intra_mun_relocation', 'inter_mun_relocation']) === true) {
-//                $object = $this->extendSync($object, $array);
-//            }
-
-            $now           = new DateTime();
-            $message       = [
+            // $array = $object->toArray(['embedded' => true]);
+            //
+            // if (in_array(needle: $array['toelichting'], haystack: ['intra_mun_relocation', 'inter_mun_relocation']) === true) {
+            // $object = $this->extendSync($object, $array);
+            // }
+            $now     = new DateTime();
+            $message = [
                 'kanaal'       => 'zaken',
                 'hoofdObject'  => $object->getValue('zaak')->getUri(),
                 'resource'     => 'rol',
