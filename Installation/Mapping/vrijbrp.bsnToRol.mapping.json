@@ -2,12 +2,14 @@
   "title": "BSNToRol",
   "$id": "https://commongateway.nl/mapping/vrijbrp.bsnToRol.mapping.json",
   "$schema": "https://docs.commongateway.nl/schemas/Mapping.schema.json",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "passTrough": false,
   "mapping": {
     "_sourceId": "{% if dossierId|default and bsn|default %}{{ dossierId~' '~bsn }}{% endif %}",
     "roltype": "roltypeUrl",
     "roltoelichting": "persoon",
+    "contactpersoonRol.emailadres": "contactInformation.email",
+    "contactpersoonRol.telefoonnummer": "contactInformation.telephoneNumber",
     "betrokkeneIdentificatie.inpBsn": "bsn",
     "betrokkeneType": "natuurlijk_persoon"
   },
@@ -15,6 +17,8 @@
     "_sourceId": "unsetIfValue==",
     "roltype": "unsetIfValue==roltypeUrl",
     "betrokkeneIdentificatie.inpBsn": "unsetIfValue==bsn",
-    "betrokkeneIdentificatie": "unsetIfValue=="
+    "betrokkeneIdentificatie": "unsetIfValue==",
+    "contactpersoonRol.emailadres": "unsetIfValue==contactInformation.email",
+    "contactpersoonRol.telefoonnummer": "unsetIfValue==contactInformation.telephoneNumber"
   }
 }

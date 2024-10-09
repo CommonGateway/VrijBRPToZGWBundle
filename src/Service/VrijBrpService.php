@@ -89,9 +89,9 @@ class VrijBrpService
             $now           = new DateTime();
             $message       = [
                 'kanaal'       => 'zaken',
-                'hoofdObject'  => $objectData['zaak'],
+                'hoofdObject'  => $object->getValue('zaak')->getUri(),
                 'resource'     => 'status',
-                'resourceUrl'  => $objectData['url'],
+                'resourceUrl'  => $object->getUri(),
                 'actie'        => 'create',
                 'aanmaakdatum' => $now->format('c'),
             ];
@@ -154,23 +154,22 @@ class VrijBrpService
         $object = $data['object'];
 
         if ($object instanceof ObjectEntity === true) {
-            $array = $object->toArray(['embedded' => true]);
-
-            if (in_array(needle: $array['toelichting'], haystack: ['intra_mun_relocation', 'inter_mun_relocation']) === true) {
-                $object = $this->extendSync($object, $array);
-            }
-
-            $array = $object->toArray(['embedded' => true]);
+//            $array = $object->toArray(['embedded' => true]);
+//
+//            if (in_array(needle: $array['toelichting'], haystack: ['intra_mun_relocation', 'inter_mun_relocation']) === true) {
+//                $object = $this->extendSync($object, $array);
+//            }
 
             $now           = new DateTime();
             $message       = [
                 'kanaal'       => 'zaken',
-                'hoofdObject'  => $object->getUri(),
+                'hoofdObject'  => $object->getValue('zaak')->getUri(),
                 'resource'     => 'rol',
-                'resourceUrl'  => $array['embedded']['rollen'][0]['url'],
+                'resourceUrl'  => $object->getUri(),
                 'actie'        => 'create',
                 'aanmaakdatum' => $now->format('c'),
             ];
+
             $schema        = $this->resourceService->getSchema(
                 reference: 'https://zgw.opencatalogi.nl/schema/nrc.message.schema.json',
                 pluginName: 'common-gateway/vrijbrp-to-zgw-bundle'
