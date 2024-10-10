@@ -86,8 +86,8 @@ class VrijBrpService
         if ($object instanceof ObjectEntity) {
             $objectData = $object->toArray(['embedded' => true, 'user' => $this->cacheService->getObjectUser(objectEntity: $object)]);
 
-            $now           = new DateTime();
-            $message       = [
+            $now     = new DateTime();
+            $message = [
                 'kanaal'       => 'zaken',
                 'hoofdObject'  => $object->getValue('zaak')->getUri(),
                 'resource'     => 'status',
@@ -97,9 +97,9 @@ class VrijBrpService
                 'kenmerken'    => [
                     "zaaktype"                    => $object->getValue('zaak')->getValue('zaaktype')->getUri(),
                     "bronorganisatie"             => "001479179",
-                    "vertrouwelijkheidaanduiding" => "zaakvertrouwelijk"
+                    "vertrouwelijkheidaanduiding" => "zaakvertrouwelijk",
 
-                ]
+                ],
             ];
             $schema        = $this->resourceService->getSchema(
                 reference: 'https://zgw.opencatalogi.nl/schema/nrc.message.schema.json',
@@ -176,9 +176,9 @@ class VrijBrpService
                 'kenmerken'    => [
                     "zaaktype"                    => $object->getValue('zaak')->getValue('zaaktype')->getUri(),
                     "bronorganisatie"             => "001479179",
-                    "vertrouwelijkheidaanduiding" => "zaakvertrouwelijk"
+                    "vertrouwelijkheidaanduiding" => "zaakvertrouwelijk",
 
-                ]
+                ],
             ];
 
             $schema        = $this->resourceService->getSchema(
