@@ -94,6 +94,12 @@ class VrijBrpService
                 'resourceUrl'  => $object->getUri(),
                 'actie'        => 'create',
                 'aanmaakdatum' => $now->format('c'),
+                'kenmerken'    => [
+                    "zaaktype"                    => $object->getValue('zaak')->getValue('zaaktype')->getUri(),
+                    "bronorganisatie"             => "001479179",
+                    "vertrouwelijkheidaanduiding" => "zaakvertrouwelijk"
+
+                ]
             ];
             $schema        = $this->resourceService->getSchema(
                 reference: 'https://zgw.opencatalogi.nl/schema/nrc.message.schema.json',
@@ -167,6 +173,12 @@ class VrijBrpService
                 'resourceUrl'  => $object->getUri(),
                 'actie'        => 'create',
                 'aanmaakdatum' => $now->format('c'),
+                'kenmerken'    => [
+                    "zaaktype"                    => $object->getValue('zaak')->getValue('zaaktype')->getUri(),
+                    "bronorganisatie"             => "001479179",
+                    "vertrouwelijkheidaanduiding" => "zaakvertrouwelijk"
+
+                ]
             ];
 
             $schema        = $this->resourceService->getSchema(
